@@ -4,19 +4,23 @@ import javax.telephony.events.Ev;
 import javax.telephony.events.ProvOutOfServiceEv;
 
 public class ProvOutOfServiceEvActionImpl implements CiscoJtapiEventActionInterface {
+	
+	private ProvOutOfServiceEv provEv;
 
 	@Override
-	public void action(Ev event) {
+	public void action() {
 		// TODO Auto-generated method stub
 		try {
-			if (event instanceof ProvOutOfServiceEv) {
-				ProvOutOfServiceEv provEv = (ProvOutOfServiceEv) event;
-				System.out.println( "ProvOutOfServiceEv event - " + provEv.toString());
-			}
+			System.out.println( "ProvOutOfServiceEv event - " + provEv.toString());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println("ProvOutOfServiceEv exception - " + e.getMessage());
 		}
+	}
+	
+	@Override
+	public void setEvent(Ev event) {
+		this.provEv = (ProvOutOfServiceEv) event;
 	}
 	
 }

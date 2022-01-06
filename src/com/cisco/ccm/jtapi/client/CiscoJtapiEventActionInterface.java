@@ -4,6 +4,7 @@ import javax.telephony.events.Ev;
 
 public interface CiscoJtapiEventActionInterface {
 	
-	public void action(Ev event);
+	public void action();
+	public void setEvent(Ev event);
 
 }

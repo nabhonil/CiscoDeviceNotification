@@ -9,11 +9,6 @@ public class CiscoDeviceNotificationProcessor implements Runnable {
 	private LinkedBlockingQueue<CiscoJtapiEventBean> eventsQueue;
 	private boolean stopProcessor;
 	private Condition condition;
-	private ProvInServiceEvActionImpl providerInService = new ProvInServiceEvActionImpl();
-	private ProvOutOfServiceEvActionImpl providerOutService = new ProvOutOfServiceEvActionImpl();
-	private ProvShutdownEvActionImpl providerShutdownService = new ProvShutdownEvActionImpl();
-	private CiscoTermInServiceEvActionImpl terminalInService = new CiscoTermInServiceEvActionImpl();
-	private CiscoTermOutOfServiceEvActionImpl terminalOutService = new CiscoTermOutOfServiceEvActionImpl();
 	
 	public CiscoDeviceNotificationProcessor (LinkedBlockingQueue<CiscoJtapiEventBean> evQueue, 
 											boolean stopProcessor,
@@ -31,18 +26,16 @@ public class CiscoDeviceNotificationProcessor implements Runnable {
 				CiscoJtapiEventBean eventBean = this.eventsQueue.take();
 				int eventType = eventBean.getEventType();
 				Ev event = eventBean.getEvent();
+				CiscoJtapiEventActionFactory eventFactory = new CiscoJtapiEventActionFactory(event);
 				switch (eventType) {
 					case (CiscoJtapiEventBean.EVENT_PROVIDER): {
 						//Handle the Provider events
-						providerInService.action(event);
-						providerOutService.action(event);
-						providerShutdownService.action(event);
+						eventFactory.getEventService().action();
 						this.condition.set();
 					}
 					case (CiscoJtapiEventBean.EVENT_TERMINAL): {
 						//Handle the Terminal events
-						terminalInService.action(event);
-						terminalOutService.action(event);
+						eventFactory.getEventService().action();
 					}
 					default: {
 						//Other events just ignore for the time being.

@@ -4,19 +4,23 @@ import javax.telephony.events.Ev;
 import javax.telephony.events.ProvShutdownEv;
 
 public class ProvShutdownEvActionImpl implements CiscoJtapiEventActionInterface{
+	
+	private ProvShutdownEv provEv;
 
 	@Override
-	public void action(Ev event) {
+	public void action() {
 		// TODO Auto-generated method stub
 		try {
-			if (event instanceof ProvShutdownEv) {
-				ProvShutdownEv provEv = (ProvShutdownEv) event;
-				System.out.println( "ProvShutdownEv event - " + provEv.toString());
-			}
+			System.out.println( "ProvShutdownEv event - " + provEv.toString());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println("ProvShutdownEv exception - " + e.getMessage());
 		}
+	}
+	
+	@Override
+	public void setEvent(Ev event) {
+		this.provEv = (ProvShutdownEv) event;
 	}
 
 }
