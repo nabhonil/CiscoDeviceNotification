@@ -41,6 +41,7 @@ public class CiscoDeviceNotificationProcessor implements Runnable {
 						//Other events just ignore for the time being.
 					}
 				}
+				eventFactory = null;
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

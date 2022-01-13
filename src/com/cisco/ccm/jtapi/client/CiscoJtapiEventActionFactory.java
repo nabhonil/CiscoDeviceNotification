@@ -1,36 +1,30 @@
 package com.cisco.ccm.jtapi.client;
 
+import java.util.HashMap;
 import javax.telephony.events.Ev;
-import javax.telephony.events.ProvInServiceEv;
-import javax.telephony.events.ProvOutOfServiceEv;
-import javax.telephony.events.ProvShutdownEv;
-import com.cisco.jtapi.extensions.CiscoTermInServiceEv;
-import com.cisco.jtapi.extensions.CiscoTermOutOfServiceEv;
 
 public class CiscoJtapiEventActionFactory {
 	
 	private Ev event;
+	private HashMap<Integer, CiscoJtapiEventActionInterface> eventServiceMap;
 	public CiscoJtapiEventActionFactory(Ev event) {
 		this.event = event;
+		eventServiceMap = new HashMap<Integer, CiscoJtapiEventActionInterface>();
+		eventServiceMap.put(111, new ProvInServiceEvActionImpl());
+		eventServiceMap.put(113, new ProvOutOfServiceEvActionImpl());
+		eventServiceMap.put(114, new ProvShutdownEvActionImpl());
+		eventServiceMap.put(1073745923, new CiscoTermInServiceEvActionImpl());
+		eventServiceMap.put(1073745924, new CiscoTermOutOfServiceEvActionImpl());
 	}
 	
 	public CiscoJtapiEventActionInterface getEventService() {
 		
 		CiscoJtapiEventActionInterface eventService = null;
 		
-		if (event instanceof ProvInServiceEv) {
-			eventService = new ProvInServiceEvActionImpl();
-		} else if (event instanceof ProvOutOfServiceEv) {
-			eventService = new ProvOutOfServiceEvActionImpl();
-		} else if (event instanceof ProvShutdownEv) {
-			eventService = new ProvShutdownEvActionImpl();
-		} else if (event instanceof CiscoTermInServiceEv) {
-			eventService = new CiscoTermInServiceEvActionImpl();
-		} else if (event instanceof CiscoTermOutOfServiceEv) {
-			eventService = new CiscoTermOutOfServiceEvActionImpl();
+		if (eventServiceMap.containsKey(event.getID())) {
+			eventService = eventServiceMap.get(event.getID());
+			eventService.setEvent(event);
 		}
-		
-		eventService.setEvent(event);
 		return eventService;
 	}
 }

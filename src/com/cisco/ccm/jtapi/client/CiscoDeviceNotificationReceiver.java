@@ -31,7 +31,7 @@ public class CiscoDeviceNotificationReceiver implements ProviderObserver, CiscoT
 			
 			JtapiPeer peer = JtapiPeerFactory.getJtapiPeer ( null );
 			System.out.println ("Got peer "+ peer);
-			provider = peer.getProvider("nasinha-lnx;login=ccucadmin;passwd=P@$$w0rd");
+			provider = peer.getProvider("nasinha-lnx;login=ccucadmin;passwd=Password");
 			System.out.println ("Got provider "+ provider);
 			
 			provider.addObserver(cdnr);
