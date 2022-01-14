@@ -2,6 +2,11 @@ package com.cisco.ccm.jtapi.client;
 
 import java.util.HashMap;
 import javax.telephony.events.Ev;
+import javax.telephony.events.ProvInServiceEv;
+import javax.telephony.events.ProvOutOfServiceEv;
+import javax.telephony.events.ProvShutdownEv;
+import com.cisco.jtapi.extensions.CiscoTermInServiceEv;
+import com.cisco.jtapi.extensions.CiscoTermOutOfServiceEv;
 
 public class CiscoJtapiEventActionFactory {
 	
@@ -10,11 +15,11 @@ public class CiscoJtapiEventActionFactory {
 	public CiscoJtapiEventActionFactory(Ev event) {
 		this.event = event;
 		eventServiceMap = new HashMap<Integer, CiscoJtapiEventActionInterface>();
-		eventServiceMap.put(111, new ProvInServiceEvActionImpl());
-		eventServiceMap.put(113, new ProvOutOfServiceEvActionImpl());
-		eventServiceMap.put(114, new ProvShutdownEvActionImpl());
-		eventServiceMap.put(1073745923, new CiscoTermInServiceEvActionImpl());
-		eventServiceMap.put(1073745924, new CiscoTermOutOfServiceEvActionImpl());
+		eventServiceMap.put(ProvInServiceEv.ID, new ProvInServiceEvActionImpl());
+		eventServiceMap.put(ProvOutOfServiceEv.ID, new ProvOutOfServiceEvActionImpl());
+		eventServiceMap.put(ProvShutdownEv.ID, new ProvShutdownEvActionImpl());
+		eventServiceMap.put(CiscoTermInServiceEv.ID, new CiscoTermInServiceEvActionImpl());
+		eventServiceMap.put(CiscoTermOutOfServiceEv.ID, new CiscoTermOutOfServiceEvActionImpl());
 	}
 	
 	public CiscoJtapiEventActionInterface getEventService() {
