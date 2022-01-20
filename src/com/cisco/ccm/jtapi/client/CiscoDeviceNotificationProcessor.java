@@ -22,11 +22,12 @@ public class CiscoDeviceNotificationProcessor implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		try { 
+			CiscoJtapiEventActionFactory eventFactory = new CiscoJtapiEventActionFactory();
 			while (! isStopProcessor()) {
 				CiscoJtapiEventBean eventBean = this.eventsQueue.take();
 				int eventType = eventBean.getEventType();
 				Ev event = eventBean.getEvent();
-				CiscoJtapiEventActionFactory eventFactory = new CiscoJtapiEventActionFactory(event);
+				eventFactory.setEvent(event);
 				switch (eventType) {
 					case (CiscoJtapiEventBean.EVENT_PROVIDER): {
 						//Handle the Provider events
@@ -40,9 +41,9 @@ public class CiscoDeviceNotificationProcessor implements Runnable {
 					default: {
 						//Other events just ignore for the time being.
 					}
-				}
-				eventFactory = null;
+				}	
 			}
+			eventFactory = null;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println("Exception - CiscoDeviceNotificationProcessor: " + e.getMessage());

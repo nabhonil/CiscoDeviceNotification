@@ -12,8 +12,7 @@ public class CiscoJtapiEventActionFactory {
 	
 	private Ev event;
 	private HashMap<Integer, CiscoJtapiEventActionInterface> eventServiceMap;
-	public CiscoJtapiEventActionFactory(Ev event) {
-		this.event = event;
+	public CiscoJtapiEventActionFactory() {
 		eventServiceMap = new HashMap<Integer, CiscoJtapiEventActionInterface>();
 		eventServiceMap.put(ProvInServiceEv.ID, new ProvInServiceEvActionImpl());
 		eventServiceMap.put(ProvOutOfServiceEv.ID, new ProvOutOfServiceEvActionImpl());
@@ -31,5 +30,13 @@ public class CiscoJtapiEventActionFactory {
 			eventService.setEvent(event);
 		}
 		return eventService;
+	}
+
+	public Ev getEvent() {
+		return event;
+	}
+
+	public void setEvent(Ev event) {
+		this.event = event;
 	}
 }
